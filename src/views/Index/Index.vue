@@ -13,7 +13,7 @@
       <input type="text" placeholder="输入车次/航班号/城市等；如CA3883"/>
     </div>
     <div class="btn">开始查询</div>
-    <div class="info all">显示全部行程</div>
+    <router-link class="info all" to="/results">显示全部行程</router-link>
     <div class="info from">数据来源于无糖</div>
   </div>
 </template>
@@ -107,5 +107,10 @@ input::-webkit-input-placeholder {
 }
 .info.all {
   color: #417bf7;
+  text-decoration: none;
+  margin: 0.7rem auto 0;
+  display: block;
+  width: 30%;
+  text-align: center;
 }
 </style>
