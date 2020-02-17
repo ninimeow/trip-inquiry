@@ -2,11 +2,13 @@
   <div class="views">
     <img class="banner" src="/static/images/banner.png" alt="banner"/>
     <div class="input date">
-      <span>出行日期</span>
+      <div class="split"></div>
+      <div class="title">出行日期</div>
       <input type="text" placeholder="选择日期"/>
     </div>
     <div class="input type">
-      <span>出行交通</span>
+      <div class="split"></div>
+      <div class="title">出行交通</div>
       <input type="text" placeholder="输入车次/航班号/城市等；如CA3883"/>
     </div>
     <div class="btn">开始查询</div>
@@ -51,17 +53,17 @@ export default {
   margin-bottom: 0.44rem;
 }
 
-.input span {
+.input .title {
   padding-left: 0.12rem;
 }
 
-.input span::before {
+.input .split {
   content: "";
   display: block;
   width: 0.06rem;
-  height: 100%;
   border-radius: 3px;
   background: #417bf7;
+  height: 16px;
 }
 
 .input input {
