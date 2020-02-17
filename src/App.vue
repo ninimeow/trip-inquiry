@@ -11,9 +11,10 @@ export default {
 </script>
 
 <style>
-body,html{
+body,
+html {
   height: 100%;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   padding: 0;
   margin: 0;
 }
@@ -22,15 +23,20 @@ body {
   font-size: 12px;
   -webkit-user-select: none;
   box-sizing: border-box;
-  font-family: '微软雅黑';
+  font-family: "微软雅黑";
   overflow: hidden;
 }
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
-ul,li{
+ul,
+li {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+#app {
+  height: 100%;
 }
 </style>
