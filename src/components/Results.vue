@@ -1,23 +1,23 @@
 <template>
-  <div class="page">
-    <div :class="{'white-bg': !dataLists.length}">
-      <p class="times">数据更新截止时间：0000-00-00 00:00:00</p>
-      <div class="lists" v-if="dataLists.length">
-        <div class="items" v-for="(item, i) in dataLists" :key="i">
-          <span class="label">有确诊患者同行-{{i}}</span>
+  <div class="page" ref="page">
+    <div :class="{'white-bg': !showList}">
+      <p class="times">数据更新截止时间：{{updatedTime}}</p>
+      <div class="lists" v-if="showList">
+        <div class="items" v-for="(item, i) in filterLists" :key="i">
+          <span class="label">有确诊患者同行</span>
           <span :class="`icons icon-${item.t_type}`"></span>
           <dl v-if="item.t_type === 8">
             <dt>{{item.t_no}}</dt>
             <dd>{{item.t_date}}</dd>
           </dl>
-          <dl v-else-if="item.t_type === 4 || item.t_type === 5 || item.t_type === 6">
-            <dt>{{item.t_no}}</dt>
-            <dd>{{item.t_date}}</dd>
-            <dd><span>始：</span>{{item.t_pos_start}} <br><span>终：</span>{{item.t_pos_end}}</dd>
-          </dl>
-          <dl v-else>
+          <dl v-else-if="item.t_type === 1 || item.t_type === 2">
             <dt><span>{{item.t_pos_start}}</span><em></em><span>{{item.t_pos_end}}</span></dt>
             <dd>{{setTime(item.t_start)}} 至  {{setTime(item.t_end)}}<br>{{item.t_no}}</dd>
+          </dl>
+          <dl v-else>
+            <dt>{{item.t_no}}</dt>
+            <dd>{{item.t_date}}</dd>
+            <dd><span>始：</span>{{setPlace(item.t_pos_start)}} <br><span>终：</span>{{setPlace(item.t_pos_end)}}</dd>
           </dl>
           <p class="from">信息来源：{{item.who}}</p>
         </div>
@@ -27,22 +27,26 @@
         <p>目前尚未发现该行程的同程旅客中<br>有新冠肺炎确诊患者</p>
       </div>
     </div>
-    <dl class="tips" v-if="!dataLists.length">
+    <dl class="tips" v-if="!showList">
       <dt>特别提示：</dt>
       <dd>您只能查到经由权威媒体发布的行程，如未查询到行程信息并不代表一定没有与新型肺炎病毒感染者同程，如有症状请到指定发热门诊救治。</dd>
       <dd>数据错误或问题反馈：<br>nearpost@qq.com、gainover@qq.com</dd>
     </dl>
-    <filter-bar></filter-bar>
+    <filter-bar @select="setFilter" @sortByTime="byTime"></filter-bar>
   </div>
 </template>
 
 <script>
 import FilterBar from '@/components/FilterBar'
+
 export default {
   name: 'results',
   data () {
     return {
-      dataLists: []
+      dataLists: [],
+      filterLists: [],
+      updatedTime: 0,
+      showList: true
     }
   },
   components: {
@@ -52,16 +56,52 @@ export default {
     this.getDataList()
   },
   methods: {
-    getDataList () {
-      this.$axios.get('https://2019ncov.nosugartech.com/data.json').then((res) => {
-        // this.dataLists = res.data.data
-        console.log(this.dataLists)
+    async getDataList () {
+      await this.$axios.get('https://2019ncov.nosugartech.com/data.json').then((res) => {
+        if (res.data.data.length) {
+          this.dataLists = this.filterLists = res.data.data
+          var lastUpdate = 0
+          this.dataLists.forEach(item => {
+            lastUpdate = Math.max(lastUpdate, new Date(item.updated_at).getTime())
+          })
+          this.updatedTime = this.formatDate(new Date(lastUpdate))
+        } else {
+          this.showList = false
+        }
       }).catch((err) => {
         console.log(err)
       })
     },
     setTime (date) {
-      return date.replace('2020/', '')
+      date = date.replace('2020/', '')
+      return date.replace('/', '-')
+    },
+    setFilter (data) {
+      if (data > 0) {
+        this.filterLists = this.dataLists.filter(item => item.t_type === data)
+      } else {
+        this.filterLists = this.dataLists
+      }
+      if (!this.filterLists.length) {
+        this.showList = false
+      } else {
+        this.showList = true
+      }
+      this.$refs.page.scrollTop = 0
+    },
+    byTime () {
+      this.filterLists.reverse()
+      this.$refs.page.scrollTop = 0
+    },
+    formatDate (date) {
+      let M = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+      let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+      let hh = date.getHours()
+      let mm = date.getMinutes()
+      return M + '-' + D + ' ' + hh + ':' + mm
+    },
+    setPlace (str) {
+      return str.length ? str : '不详'
     }
   }
 }
@@ -97,11 +137,11 @@ p{
   color: #9d9d9d;
   font-size: 0.22rem;
   border-top: 1px dashed #9d9d9d;
-  padding: 0.15rem 0 0.15rem 0.65rem;
+  padding: 0.15rem 0 0.15rem 0.5rem;
   overflow: hidden;
 }
 .items dl{
-  padding: 0.25rem 0 0.15rem 0.65rem;
+  padding: 0.25rem 0 0.15rem 0.5rem;
   margin: 0;
   overflow: hidden;
 }
@@ -113,7 +153,7 @@ p{
   align-items: center;
 }
 .items dt span{
-  flex: 0 0 1.4rem;
+  flex: 0 0 auto;
 }
 .items dt span:last-of-type{
   text-align: right;
@@ -144,10 +184,10 @@ p{
   border-radius: 0.08rem 0.08rem 0 0.08rem;
 }
 .icons{
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4rem;
+  height: 0.4rem;
   position: absolute;
-  top: 0.3rem;
+  top: 0.38rem;
 }
 .icon-1{
   background: url('~@/assets/images/flight.png') no-repeat;
