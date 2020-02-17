@@ -10,8 +10,8 @@
       <input type="text" placeholder="输入车次/航班号/城市等；如CA3883"/>
     </div>
     <div class="btn"></div>
-    <div>显示全部行程</div>
-    <div>数据来源于无糖</div>
+    <div class="info">显示全部行程</div>
+    <div class="info">数据来源于无糖</div>
   </div>
 </template>
 
@@ -26,6 +26,11 @@ export default {
 }
 
 .input {
-  width: 70rem;
+  width: 7rem;
+  margin: 0 auto;
+}
+
+.info {
+  text-align: center;
 }
 </style>
