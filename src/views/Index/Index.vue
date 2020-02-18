@@ -159,4 +159,8 @@ input::-webkit-input-placeholder {
   width: 30%;
   text-align: center;
 }
+
+/deep/ .van-picker button {
+  color: #000;
+}
 </style>
