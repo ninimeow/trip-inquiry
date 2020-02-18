@@ -56,8 +56,8 @@ export default {
     this.getDataList()
   },
   methods: {
-    async getDataList () {
-      await this.$axios.get('https://2019ncov.nosugartech.com/data.json').then((res) => {
+    getDataList () {
+      this.$axios.get('https://2019ncov.nosugartech.com/data.json').then((res) => {
         if (res.data.data.length) {
           this.dataLists = this.filterLists = res.data.data
           var lastUpdate = 0
@@ -68,9 +68,7 @@ export default {
         } else {
           this.showList = false
         }
-      }).catch((err) => {
-        console.log(err)
-      })
+      }).catch(() => {})
     },
     setTime (date) {
       date = date.replace('2020/', '')
@@ -82,11 +80,7 @@ export default {
       } else {
         this.filterLists = this.dataLists
       }
-      if (!this.filterLists.length) {
-        this.showList = false
-      } else {
-        this.showList = true
-      }
+      this.filterLists.length ? this.showList = true : this.showList = false
       this.$refs.page.scrollTop = 0
     },
     byTime () {
