@@ -11,9 +11,13 @@
             <dt>{{item.t_no}}</dt>
             <dd>{{item.t_date}}</dd>
           </dl>
-          <dl v-else-if="item.t_type === 1 || item.t_type === 2">
+          <dl v-else-if="item.t_type === 1">
             <dt><span>{{item.t_pos_start}}</span><em></em><span>{{item.t_pos_end}}</span></dt>
             <dd>{{setTime(item.t_start)}} 至  {{setTime(item.t_end)}}<br>{{item.t_no}}</dd>
+          </dl>
+          <dl v-else-if="item.t_type === 2">
+            <dt><span>{{item.t_pos_start}}</span><em></em><span>{{item.t_pos_end}}</span></dt>
+            <dd>{{setTime(item.t_start)}} 至  {{setTime(item.t_end)}}<br>{{item.t_no}} {{item.t_no_sub}}</dd>
           </dl>
           <dl v-else>
             <dt>{{item.t_no}}</dt>
