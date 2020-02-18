@@ -77,7 +77,6 @@ export default {
             const type = this.type.trim()
             result = result.filter(item => item.t_no.indexOf(type) > -1 || item.t_pos_start.indexOf(type) > -1 || item.t_pos_end.indexOf(type) > -1)
           }
-          console.log(result)
           this.dataLists = this.filterLists = result
           if (!result.length) {
             this.showList = false
