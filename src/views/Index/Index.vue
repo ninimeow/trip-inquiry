@@ -57,6 +57,8 @@ export default {
     }
     if (date) {
       this.date = date
+      const dateArray = date.split('-')
+      this.currentDate = new Date(dateArray[0], dateArray[1] - 1, dateArray[2])
     }
   },
   methods: {
