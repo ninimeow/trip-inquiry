@@ -1,5 +1,6 @@
 <template>
   <div class="page" ref="page">
+    <van-loading class="loading" type="spinner" color="#1989fa" v-show="loading" size="24px" vertical>查询中...</van-loading>
     <div :class="{'white-bg': !showList}">
       <p class="times" v-show="updatedTime">数据更新截止时间：{{updatedTime}}</p>
       <div class="lists" v-if="showList">
@@ -46,7 +47,8 @@ export default {
       dataLists: [],
       filterLists: [],
       updatedTime: null,
-      showList: true
+      showList: true,
+      loading: true
     }
   },
   props: {
@@ -61,6 +63,7 @@ export default {
   },
   methods: {
     getDataList () {
+      this.loading = true
       this.$axios.get('https://2019ncov.nosugartech.com/data.json').then((res) => {
         if (res.data.data.length) {
           var lastUpdate = 0
@@ -84,7 +87,9 @@ export default {
         } else {
           this.showList = false
         }
-      }).catch(() => {})
+      }).finally(() => {
+        this.loading = false
+      })
     },
     setTime (date) {
       date = date.replace('2020/', '')
@@ -118,6 +123,12 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 p {
   margin: 0;
   padding: 0.28rem;
