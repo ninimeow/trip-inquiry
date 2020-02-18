@@ -126,6 +126,7 @@ p {
   height: 100vh;
   overflow-y: scroll;
   background: #f0f2f6;
+  -webkit-overflow-scrolling: touch;
 }
 .white-bg {
   background: #fff;
