@@ -1,6 +1,6 @@
 <template>
   <div class="views">
-    <Dialog v-if="showDialog" title="免责声明" content="本服务数据由无糖信息提供，如有问题请咨询该公司。" button="我知道了" @conform="showDialog = false"></Dialog>
+    <Dialog v-if="!showedDialog && showDialog" title="免责声明" content="本服务数据由无糖信息提供，如有问题请咨询该公司。" button="我知道了" @conform="closeDialog"></Dialog>
     <img class="banner" src="/static/images/banner.png" alt="banner"/>
     <div class="input date">
       <div class="split"></div>
@@ -35,6 +35,7 @@ export default {
   data () {
     return {
       showDialog: true,
+      showedDialog: window.showedDialog,
       showDate: false,
       date: null,
       type: null,
@@ -46,7 +47,13 @@ export default {
   components: {
     Dialog
   },
+  computed: {
+  },
   methods: {
+    closeDialog () {
+      this.showDialog = false
+      window.showedDialog = true
+    },
     query () {
       this.$router.push({name: 'results', query: {type: this.type, date: this.date}})
     },

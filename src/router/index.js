@@ -14,7 +14,8 @@ export default new Router({
     {
       path: '/results',
       name: 'results',
-      component: () => import('@/components/Results')
+      component: () => import('@/components/Results'),
+      props: (route) => ({ date: route.query.date, type: route.query.type })
     }
   ]
 })

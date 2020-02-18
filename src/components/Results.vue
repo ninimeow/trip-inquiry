@@ -1,7 +1,7 @@
 <template>
   <div class="page" ref="page">
     <div :class="{'white-bg': !showList}">
-      <p class="times">数据更新截止时间：{{updatedTime}}</p>
+      <p class="times" v-show="updatedTime">数据更新截止时间：{{updatedTime}}</p>
       <div class="lists" v-if="showList">
         <div class="items" v-for="(item, i) in filterLists" :key="i">
           <span class="label">有确诊患者同行</span>
@@ -45,9 +45,13 @@ export default {
     return {
       dataLists: [],
       filterLists: [],
-      updatedTime: 0,
+      updatedTime: null,
       showList: true
     }
+  },
+  props: {
+    date: {type: String},
+    type: {type: String}
   },
   components: {
     FilterBar
@@ -59,12 +63,19 @@ export default {
     getDataList () {
       this.$axios.get('https://2019ncov.nosugartech.com/data.json').then((res) => {
         if (res.data.data.length) {
-          this.dataLists = this.filterLists = res.data.data
           var lastUpdate = 0
-          this.dataLists.forEach(item => {
+          res.data.data.forEach(item => {
             lastUpdate = Math.max(lastUpdate, new Date(item.updated_at).getTime())
           })
           this.updatedTime = this.formatDate(new Date(lastUpdate))
+          let result = []
+          if (this.date) {
+            result = res.data.data.filter(item => item.t_date === this.date)
+          }
+          this.dataLists = this.filterLists = result
+          if (!result.length) {
+            this.showList = false
+          }
         } else {
           this.showList = false
         }
@@ -102,74 +113,74 @@ export default {
 </script>
 
 <style scoped>
-p{
+p {
   margin: 0;
   padding: 0.28rem;
 }
-.page{
+.page {
   height: 100vh;
   overflow-y: scroll;
   background: #f0f2f6;
 }
-.white-bg{
+.white-bg {
   background: #fff;
 }
-.times{
+.times {
   font-size: 0.28rem;
 }
-.lists{
-  padding: 0.45rem 0.28rem ;
+.lists {
+  padding: 0.45rem 0.28rem;
 }
-.items{
+.items {
   background: #fff;
   border-radius: 0.1rem;
   padding: 0.1rem 0.25rem 0;
   position: relative;
-  margin: 0 0 0.45rem
+  margin: 0 0 0.45rem;
 }
-.items .from{
+.items .from {
   color: #9d9d9d;
   font-size: 0.22rem;
   border-top: 1px dashed #9d9d9d;
   padding: 0.15rem 0 0.15rem 0.5rem;
   overflow: hidden;
 }
-.items dl{
+.items dl {
   padding: 0.25rem 0 0.15rem 0.5rem;
   margin: 0;
   overflow: hidden;
 }
-.items dt{
+.items dt {
   color: #0a1437;
   font-size: 0.32rem;
-  font-weight:  bold;
+  font-weight: bold;
   display: flex;
   align-items: center;
 }
-.items dt span{
+.items dt span {
   flex: 0 0 auto;
 }
-.items dt span:last-of-type{
+.items dt span:last-of-type {
   text-align: right;
 }
-.items dt em{
+.items dt em {
   width: 22px;
   height: 2.5px;
-  background: url('~@/assets/images/arrow.png') no-repeat;
+  background: url("~@/assets/images/arrow.png") no-repeat;
   background-size: 100% auto;
   display: inline-block;
   margin: 0 0.1rem;
 }
-.items dd{
+.items dd {
   font-size: 0.26rem;
   margin: 0.1rem 0 0;
 }
-.label{
+.label {
   position: absolute;
   z-index: 9;
   top: -0.25rem;
   left: -0.08rem;
-  background: linear-gradient(to right, #4d87f9 ,#96c5fc);
+  background: linear-gradient(to right, #4d87f9, #96c5fc);
   color: #fff;
   padding: 0 0.1rem;
   font-size: 0.24rem;
@@ -177,68 +188,68 @@ p{
   line-height: 0.4rem;
   border-radius: 0.08rem 0.08rem 0 0.08rem;
 }
-.icons{
+.icons {
   width: 0.4rem;
   height: 0.4rem;
   position: absolute;
   top: 0.38rem;
 }
-.icon-1{
-  background: url('~@/assets/images/flight.png') no-repeat;
+.icon-1 {
+  background: url("~@/assets/images/flight.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-2{
-  background: url('~@/assets/images/train.png') no-repeat;
+.icon-2 {
+  background: url("~@/assets/images/train.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-3{
-  background: url('~@/assets/images/subway.png') no-repeat;
+.icon-3 {
+  background: url("~@/assets/images/subway.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-4{
-  background: url('~@/assets/images/travel-bus.png') no-repeat;
+.icon-4 {
+  background: url("~@/assets/images/travel-bus.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-5{
-  background: url('~@/assets/images/bus.png') no-repeat;
+.icon-5 {
+  background: url("~@/assets/images/bus.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-6{
-  background: url('~@/assets/images/taxi.png') no-repeat;
+.icon-6 {
+  background: url("~@/assets/images/taxi.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-7{
-  background: url('~@/assets/images/ship.png') no-repeat;
+.icon-7 {
+  background: url("~@/assets/images/ship.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-8{
-  background: url('~@/assets/images/local.png') no-repeat;
+.icon-8 {
+  background: url("~@/assets/images/local.png") no-repeat;
   background-size: 100% auto;
 }
-.no-result{
+.no-result {
   text-align: center;
   padding: 0.5rem 0;
 }
-.no-result span{
+.no-result span {
   width: 1.92rem;
   height: 1.72rem;
   display: block;
   margin: 0 auto 0.2rem;
-  background: url('~@/assets/images/pic1.png') no-repeat;
+  background: url("~@/assets/images/pic1.png") no-repeat;
   background-size: 100% auto;
 }
-.no-result p{
+.no-result p {
   font-size: 0.28rem;
   line-height: 0.46rem;
 }
-.tips{
+.tips {
   padding: 0.4rem;
 }
-.tips dt{
+.tips dt {
   font-size: 0.32rem;
   color: #0a1437;
 }
-.tips dd{
+.tips dd {
   color: #767575;
   font-size: 0.26rem;
   line-height: 0.38rem;
