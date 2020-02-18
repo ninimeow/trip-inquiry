@@ -1,6 +1,6 @@
 <template>
   <div class="page" ref="page">
-    <van-loading class="loading" type="spinner" color="#1989fa" v-show="loading" size="24px" vertical>查询中...</van-loading>
+    <van-loading class="loading" type="spinner" color="#1989fa" v-if="loading" size="24px" vertical>查询中...</van-loading>
     <div :class="{'white-bg': !showList}">
       <p class="times" v-show="updatedTime">数据更新截止时间：{{updatedTime}}</p>
       <div class="lists" v-if="showList">
@@ -91,6 +91,7 @@ export default {
         } else {
           this.showList = false
         }
+        this.loading = false
       }).finally(() => {
         this.loading = false
       })
