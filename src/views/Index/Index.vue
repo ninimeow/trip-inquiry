@@ -10,10 +10,10 @@
     <div class="input type">
       <div class="split"></div>
       <div class="title">出行交通</div>
-      <input type="text" placeholder="输入车次/航班号/城市等；如CA3883" v-model="type"/>
+      <input type="text" placeholder="输入车次/航班号/城市等" v-model="type"/>
     </div>
     <div class="btn" @click="query">开始查询</div>
-    <router-link class="info all" to="/results">显示全部行程</router-link>
+    <router-link class="info all" to="/results">显示全部查询结果</router-link>
     <div class="info from">数据来源于无糖</div>
     <van-popup v-model="showDate" position="bottom">
       <van-datetime-picker
@@ -171,7 +171,6 @@ input::-webkit-input-placeholder {
   text-decoration: none;
   margin: 0.7rem auto 0;
   display: block;
-  width: 30%;
   text-align: center;
 }
 
