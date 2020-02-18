@@ -1,6 +1,6 @@
 <template>
   <div class="views">
-    <Dialog v-if="!showedDialog && showDialog" title="免责声明" content="本服务数据由无糖信息提供，如有问题请咨询该公司。" button="我知道了" @conform="closeDialog"></Dialog>
+    <Dialog v-if="!showedDialog && showDialog" title="免责声明" content="本服务数据由无糖信息提供，数据准确性由其负责，相关内容仅供参考。" button="我知道了" @conform="closeDialog"></Dialog>
     <img class="banner" src="/static/images/banner.png" alt="banner"/>
     <div class="input date">
       <div class="split"></div>
