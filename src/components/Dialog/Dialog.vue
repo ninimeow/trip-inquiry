@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .dialog-wrapper {
   position: absolute;
   height: 100%;

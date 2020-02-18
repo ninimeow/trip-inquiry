@@ -5,16 +5,27 @@
     <div class="input date">
       <div class="split"></div>
       <div class="title">出行日期</div>
-      <input type="text" placeholder="选择日期"/>
+      <input type="text" placeholder="选择日期" @click="showDate = true" :value="date" readonly/>
     </div>
     <div class="input type">
       <div class="split"></div>
       <div class="title">出行交通</div>
       <input type="text" placeholder="输入车次/航班号/城市等；如CA3883"/>
     </div>
-    <div class="btn">开始查询</div>
+    <div class="btn" @click="query">开始查询</div>
     <router-link class="info all" to="/results">显示全部行程</router-link>
     <div class="info from">数据来源于无糖</div>
+    <van-popup v-model="showDate" position="bottom">
+      <van-datetime-picker
+        v-model="currentDate"
+        type="date"
+        :min-date="minDate"
+        :max-date="maxDate"
+        title="出行日期"
+        @confirm="confirmDate"
+        @cancel="cancelDate"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -23,15 +34,43 @@ import Dialog from '@/components/Dialog/Dialog'
 export default {
   data () {
     return {
-      showDialog: true
+      showDialog: true,
+      showDate: false,
+      date: null,
+      type: null,
+      currentDate: new Date(),
+      minDate: new Date(2019, 0, 1),
+      maxDate: new Date(2020, 11, 31)
     }
   },
   components: {
     Dialog
+  },
+  methods: {
+    query () {
+      this.$router.push({name: 'results', query: {type: this.type, date: this.date}})
+    },
+    paddingLeft (value) {
+      if (value < 10) {
+        return `0${value}`
+      } else {
+        return value
+      }
+    },
+    confirmDate (value) {
+      if (!value) {
+        return
+      }
+      this.date = `${value.getFullYear()}-${this.paddingLeft(value.getMonth() + 1)}-${this.paddingLeft(value.getDate())}`
+      this.showDate = false
+    },
+    cancelDate () {
+      this.showDate = false
+    }
   }
 }
 </script>
-<style>
+<style scoped>
 .views {
   height: 100%;
   background: rgb(244, 244, 244);
