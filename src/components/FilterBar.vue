@@ -77,7 +77,7 @@ p {
   display: flex;
   background: #fff;
   height: 0.9rem;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #eeeeee;
 }
 .filter-bar span {
   flex: 0 0 50%;

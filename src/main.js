@@ -5,13 +5,14 @@ import App from './App'
 import router from './router'
 import '@/assets/js/flexible.js'
 import axios from 'axios'
-import { DatetimePicker, Popup } from 'vant'
+import { DatetimePicker, Popup, Loading } from 'vant'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
 Vue.use(Popup)
 Vue.use(DatetimePicker)
+Vue.use(Loading)
 
 /* eslint-disable no-new */
 new Vue({

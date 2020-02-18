@@ -1,7 +1,7 @@
 <template>
   <div class="views">
     <Dialog v-if="!showedDialog && showDialog" title="免责声明" content="本服务数据由无糖信息提供，数据准确性由其负责，相关内容仅供参考。" button="我知道了" @conform="closeDialog"></Dialog>
-    <img class="banner" src="/static/images/banner.png" alt="banner"/>
+    <img class="banner" src="~@/assets/images/banner.png" alt="banner"/>
     <div class="input date">
       <div class="split"></div>
       <div class="title">出行日期</div>
@@ -37,8 +37,8 @@ export default {
       showDialog: true,
       showedDialog: window.showedDialog,
       showDate: false,
-      date: null,
-      type: null,
+      date: '',
+      type: '',
       currentDate: new Date(),
       minDate: new Date(2019, 0, 1),
       maxDate: new Date(2020, 11, 31)
@@ -49,12 +49,26 @@ export default {
   },
   computed: {
   },
+  mounted () {
+    const type = sessionStorage.getItem('query.type')
+    const date = sessionStorage.getItem('query.date')
+    if (type) {
+      this.type = type
+    }
+    if (date) {
+      this.date = date
+      const dateArray = date.split('-')
+      this.currentDate = new Date(dateArray[0], dateArray[1] - 1, dateArray[2])
+    }
+  },
   methods: {
     closeDialog () {
       this.showDialog = false
       window.showedDialog = true
     },
     query () {
+      sessionStorage.setItem('query.type', this.type)
+      sessionStorage.setItem('query.date', this.date)
       this.$router.push({name: 'results', query: {type: this.type, date: this.date}})
     },
     paddingLeft (value) {
@@ -124,6 +138,7 @@ export default {
 .input input {
   margin-left: 0.25rem;
   outline: none;
+  border: none;
   flex: 1 0 auto;
 }
 
