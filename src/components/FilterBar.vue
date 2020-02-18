@@ -28,7 +28,7 @@ export default {
       dataLists: [],
       isMaskShow: false,
       layerShow: false,
-      filters: ['全部', '飞机', '火车', '地铁', '长途客车/大巴', '公交车', '出租车', '轮船', '其它公共场所'],
+      filters: ['全部', '飞机', '火车', '地铁', '长途巴士', '公交车', '出租车', '轮船', '其它场所'],
       selectNo: 0,
       note: 0,
       filterTime: false,
@@ -61,39 +61,39 @@ export default {
 </script>
 
 <style scoped>
-p{
+p {
   margin: 0;
   padding: 0.28rem;
 }
-.page{
+.page {
   height: 100vh;
   overflow: hidden;
 }
-.filter-bar{
+.filter-bar {
   width: 100%;
   position: fixed;
   bottom: 0;
   z-index: 999;
   display: flex;
-  background: #FFF;
+  background: #fff;
   height: 0.9rem;
   border-top: 1px solid #ccc;
 }
-.filter-bar span{
+.filter-bar span {
   flex: 0 0 50%;
   text-align: center;
   font-size: 0.28rem;
   line-height: 0.9rem;
 }
-.mask{
+.mask {
   position: fixed;
-  top:0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.45);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 10;
 }
-.filter-layer{
+.filter-layer {
   width: 100%;
   background: #fff;
   border-radius: 0.15rem 0.15rem 0 0;
@@ -103,80 +103,81 @@ p{
   height: 0;
   transition: height 0.4s;
 }
-.show{
+.show {
   height: 9rem;
   transition: height 0.4s;
 }
-.filter-layer .title{
+.filter-layer .title {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.filter-layer .title span{
+.filter-layer .title span {
   flex: 0 0 1.5rem;
   text-align: center;
   font-size: 0.28rem;
   line-height: 0.9rem;
 }
-.filter-layer .title em{
+.filter-layer .title em {
   font-size: 0.3rem;
   font-style: normal;
 }
-.filter-items{
+.filter-items {
   background: #f6f6f6;
 }
-.filter-items li{
+.filter-items li {
   line-height: 0.9rem;
   font-size: 0.28rem;
   padding: 0 0.6rem;
   position: relative;
 }
-.filter-items li::after{
+.filter-items li::after {
   width: 0.3rem;
   height: 0.3rem;
   border: 1px solid #999;
   border-radius: 0.05rem;
-  content: '';
+  content: "";
   position: absolute;
   right: 0.6rem;
   top: 50%;
   transform: translateY(-50%);
 }
-.filter-items li.selected::after{
+.filter-items li.selected::after {
   border: 1px solid #497ae4;
   background: #497ae4;
 }
-.filter-items li.selected::before{
+.filter-items li.selected::before {
   border: 2px solid #fff;
   border-style: none solid solid none;
   width: 5px;
   height: 8px;
   position: absolute;
-  content: '';
+  content: "";
   right: 0.69rem;
   top: 50%;
   transform: translateY(-65%) rotate(45deg);
   z-index: 9;
 }
-.icon-time, .icon-filter{
+.icon-time,
+.icon-filter {
   width: 0.4rem;
   height: 0.4rem;
   display: inline-block;
   margin: 0 0 0 0.1rem;
   vertical-align: middle;
 }
-.icon-time{
-  background: url('~@/assets/images/filter-time.png') no-repeat;
+.icon-time {
+  background: url("~@/assets/images/filter-time.png") no-repeat;
   background-size: 100% auto;
 }
-.icon-time1{
+.icon-time1 {
   background-position: 0 -0.4rem;
 }
-.icon-filter{
-  background: url('~@/assets/images/filter-all.png') no-repeat 0 -0.4rem;
+.icon-filter {
+  background: url("~@/assets/images/filter-all.png") no-repeat 0 -0.4rem;
   background-size: 100% auto;
 }
-.icon-filter1{
+.icon-filter1 {
   background-position: 0 0;
 }
 </style>
