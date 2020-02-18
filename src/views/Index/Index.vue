@@ -10,7 +10,7 @@
     <div class="input type">
       <div class="split"></div>
       <div class="title">出行交通</div>
-      <input type="text" placeholder="输入车次/航班号/城市等；如CA3883"/>
+      <input type="text" placeholder="输入车次/航班号/城市等；如CA3883" v-model="type"/>
     </div>
     <div class="btn" @click="query">开始查询</div>
     <router-link class="info all" to="/results">显示全部行程</router-link>
