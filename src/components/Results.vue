@@ -75,7 +75,7 @@ export default {
             lastUpdate = Math.max(lastUpdate, new Date(item.updated_at).getTime())
           })
           this.updatedTime = this.formatDate(new Date(lastUpdate))
-          let result = res.data.data
+          let result = res.data.data.sort((a, b) => a.t_start > b.t_start ? 1 : -1)
           if (this.date) {
             const date = this.date.trim()
             result = result.filter(item => item.t_date === date)
@@ -84,6 +84,7 @@ export default {
             const type = this.type.trim()
             result = result.filter(item => item.t_no.indexOf(type) > -1 || item.t_pos_start.indexOf(type) > -1 || item.t_pos_end.indexOf(type) > -1)
           }
+          console.log(result)
           this.dataLists = this.filterLists = result
           if (!result.length) {
             this.showList = false
